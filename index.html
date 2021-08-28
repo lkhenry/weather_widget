@@ -176,18 +176,7 @@ function showTemp(response) {
   console.log(todayTemp);
   newTodayTemp = document.querySelector(".temperatureOne");
   newTodayTemp.innerHTML = `${todayTemp} &#176C`;
-  let tomTemp = Math.round(response.data.list[12].main.temp_max);
-  newTomTemp = document.querySelector(".temperatureTwo");
-  newTomTemp.innerHTML = `${tomTemp} &#176C`;
-   let dayThreeTemp= Math.round(response.data.list[20].main.temp_max);
-  newDayThreeTemp=document.querySelector(".temperatureThree");
-  newDayThreeTemp.innerHTML= `${dayThreeTemp} &#176C`;
-    let dayFourTemp = Math.round(response.data.list[28].main.temp_max);
-  newDayFourTemp = document.querySelector(".temperatureFour");
-  newDayFourTemp.innerHTML = `${dayFourTemp} &#176C`;
-  let dayFiveTemp = Math.round(response.data.list[36].main.temp_max);
-  newDayFiveTemp= document.querySelector(".temperatureFive");
-  newDayFiveTemp.innerHTML = `${dayFiveTemp} &#176C`;
+  
 }
 			let cityForm = document.querySelector("#search-city");
 			cityForm.addEventListener("submit", changeCity);
@@ -195,7 +184,7 @@ function showTemp(response) {
 		function geoLocation(response) {
 			console.log(response);
   		let geoCity = document.querySelector(".cityName");
-  		geoCity.innerHTML = response.data.timezone;
+  		geoCity.innerHTML = response.data.name;
 			console.log(geoCity)
 			let roundTemp= Math.round (response.data.main.temp);
 			let currentTemp= document.querySelector(".temperatureOne");
@@ -205,8 +194,7 @@ function retrievePosition(position) {
   let apiKey = "76d821d1d2a2ea449995354a4c66a73d";
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
-  let units="metric";
-  let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   axios.get(url).then(geoLocation);
 }
 
