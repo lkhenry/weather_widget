@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://kit.fontawesome.com/380a283b92.js"
+      crossorigin="anonymous"></script>
+     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+    
+    let weather = {
+  paris: {
+    temp: 19.7,
+    humidity: 80,
+  },
+  tokyo: {
+    temp: 17.3,
+    humidity: 50,
+  },
+  lisbon: {
+    temp: 30.2,
+    humidity: 20,
+  },
+  "san francisco": {
+    temp: 20.9,
+    humidity: 100,
+  },
+  moscow: {
+    temp: -5,
+    humidity: 20,
+  },
+};
+
+
+let yourCity = prompt("Enter a city");
+ yourCity = yourCity.toLowerCase();
+  
+if (weather[yourCity] !== undefined){
+ 
+  let temperature = weather[yourCity].temp;
+  let humidity= weather[yourCity].humidity;
+  let cTemp= Math.floor(temperature);
+  let fTemp= Math.floor(temperature * (9/5) + 32);
+  alert("It is currently " + cTemp + "\xB0C (" + fTemp+ "\xB0F) in " + yourCity + " with a humidity of " +humidity+"%.")
+}
+else {
+  alert ("Sorry, we don't know the weather for this city, try going to 'https://www.google.com/search?q=weather+" + yourCity + "'.")
+}
+</script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <style>
+      .wrap {
+        text-align: center;
+      }
+      .cityName {
+        background-image: url(https://images.unsplash.com/photo-1517685633466-403d6955aeab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60);
+        background-size: 400px;
+        background-repeat: no-repeat;
+        padding: 100px;
+        font-size: 50px;
+        margin: 20px;
+        color: white;
+        background-position: center;
+        text-align: center;
+      }
+			h2{
+				text-align:center;
+			}
+			#search-city{
+				text-align: center;
+			}
+    </style>
+  </head>
+
+  <body>
+			
+		<form id= "search-city">
+			<input type="text" id="city-input" placeholder="Search city">
+			<input type = submit value="&#128269">
+			<button type="button" class="geo">&#128205</button>
+		</form>
+		
+		<div class="cityName">Dublin</div>
+			<h2></h2>
+			<div class="row row-cols-1 row-cols-md-5 g-5">
+  <div class="col">
+    <div class="card">
+            <div class="card-body">
+        <h5 class="card-titleOne">Friday</h5>
+        <p class="emojiOne"><i class="fas fa-cloud-showers-heavy"></i></p>
+				<p class= "temperatureOne">62 &#176F</p>
+    </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-titleTwo">Saturday</h5>
+        <p class="emojiTwo"><i class="fas fa-cloud-showers-heavy"></i></p>
+        <p class= "temperatureTwo">64 &#176F</p>
+      </div>
+    </div>
+  </div>
+ <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-titleThree">Sunday</h5>
+        <p class="emojiThree"><i class="fas fa-cloud-showers-heavy"></i></p>
+        <p class= "temperatureThree">68 &#176F</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-titleFour">Monday</h5>
+        <p class="emojiFour"><i class="fas fa-cloud-sun"></i></p>
+        <p class= "temperatureFour">64 &#176F</p>
+      </div>
+    </div>
+  </div>
+   <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-titleFive">Tuesday</h5>
+        <p class="emojiFive"><i class="fas fa-cloud-showers-heavy"></i></p>
+        <p class= "temperatureFive">65 &#176F</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+	</body>
+	<script>
+				let now = new Date();
+				let h2 = document.querySelector("h2");
+				h2.innerHTML = "h2";
+				let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+				let day = days[now.getDay()];
+				let hours = now.getHours();
+				if (hours < 10) {
+				hours = "0" + hours;}
+				let minutes = now.getMinutes();
+				if (minutes < 10){
+					minutes = "0" + minutes;
+				}
+				
+				h2.innerHTML = day + " " + hours + ":" +minutes ;
+	        
+			 
+		function changeCity(event) {
+  		event.preventDefault();
+  		let currentCity = document.querySelector(".cityName");
+  		let searchCity = document.querySelector("#city-input");
+  		currentCity.innerHTML = searchCity.value;
+  		console.log(searchCity.value);
+  	function cityTemp(position) {
+		let apiKey = "76d821d1d2a2ea449995354a4c66a73d";
+		let units= "metric";
+    let apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity.value}&appid=${apiKey}&units=${units}`;
+
+		axios.get(apiURL).then(showTemp);
+  }
+
+  cityTemp();
+}
+function showTemp(response) {
+  console.log(response)
+  let todayTemp = Math.round(response.data.list[4].main.temp_max);
+  console.log(todayTemp);
+  newTodayTemp = document.querySelector(".temperatureOne");
+  newTodayTemp.innerHTML = `${todayTemp} &#176C`;
+  let tomTemp = Math.round(response.data.list[12].main.temp_max);
+  newTomTemp = document.querySelector(".temperatureTwo");
+  newTomTemp.innerHTML = `${tomTemp} &#176C`;
+   let dayThreeTemp= Math.round(response.data.list[20].main.temp_max);
+  newDayThreeTemp=document.querySelector(".temperatureThree");
+  newDayThreeTemp.innerHTML= `${dayThreeTemp} &#176C`;
+    let dayFourTemp = Math.round(response.data.list[28].main.temp_max);
+  newDayFourTemp = document.querySelector(".temperatureFour");
+  newDayFourTemp.innerHTML = `${dayFourTemp} &#176C`;
+  let dayFiveTemp = Math.round(response.data.list[36].main.temp_max);
+  newDayFiveTemp= document.querySelector(".temperatureFive");
+  newDayFiveTemp.innerHTML = `${dayFiveTemp} &#176C`;
+}
+			let cityForm = document.querySelector("#search-city");
+			cityForm.addEventListener("submit", changeCity);
+		
+		function geoLocation(response) {
+			console.log(response);
+  		let geoCity = document.querySelector(".cityName");
+  		geoCity.innerHTML = response.data.timezone;
+			console.log(geoCity)
+			let roundTemp= Math.round (response.data.main.temp);
+			let currentTemp= document.querySelector(".temperatureOne");
+			currentTemp.innerHTML= `${roundTemp} &#176C`
+		}
+function retrievePosition(position) {
+  let apiKey = "76d821d1d2a2ea449995354a4c66a73d";
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let units="metric";
+  let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+  axios.get(url).then(geoLocation);
+}
+
+function getCurrentLocation(event){
+	event.preventDefault();
+	navigator.geolocation.getCurrentPosition(retrievePosition);
+}
+let geoButton = document.querySelector(".geo");
+geoButton.addEventListener("click", getCurrentLocation);
+
+</script>
+</html>
